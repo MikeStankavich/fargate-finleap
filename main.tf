@@ -2,15 +2,14 @@ provider "aws" {
   access_key = var.aws-access-key
   secret_key = var.aws-secret-key
   region     = var.aws-region
-  version    = "~> 2.0"
 }
 
 terraform {
   backend "s3" {
-    bucket  = "terraform-backend-store"
+    bucket  = "jxp-demo-terraform-backend-store"
     encrypt = true
     key     = "terraform.tfstate"
-    region  = "eu-central-1"
+    region  = "us-west-2"
     # dynamodb_table = "terraform-state-lock-dynamo" - uncomment this line once the terraform-state-lock-dynamo has been terraformed
   }
 }
@@ -47,6 +46,7 @@ module "security_groups" {
   container_port = var.container_port
 }
 
+
 module "alb" {
   source              = "./alb"
   name                = var.name
@@ -54,8 +54,8 @@ module "alb" {
   subnets             = module.vpc.public_subnets
   environment         = var.environment
   alb_security_groups = [module.security_groups.alb]
-  alb_tls_cert_arn    = var.tsl_certificate_arn
   health_check_path   = var.health_check_path
+  domain              = var.domain
 }
 
 module "ecr" {
@@ -90,8 +90,9 @@ module "ecs" {
     { name = "PORT",
     value = var.container_port }
   ]
-  container_secrets      = module.secrets.secrets_map
-  aws_ecr_repository_url = module.ecr.aws_ecr_repository_url
+#  container_secrets      = module.secrets.secrets_map
+#  aws_ecr_repository_url = module.ecr.aws_ecr_repository_url
+  container_image        = "nginxdemos/hello"
   container_secrets_arns = module.secrets.application_secrets_arn
 }
 

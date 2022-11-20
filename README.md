@@ -42,7 +42,7 @@ Here is a guideline:
    1. Get access key and secret from IAM for your user
    1. execute `aws configure` .. enter your key and secret
    1. find your credentials stored in files within `~/.aws` folder
-1. Create s3 bucket to hold our terraform state with this command: `aws s3api create-bucket --bucket my-terraform-backend-store --region eu-central-1 --create-bucket-configuration LocationConstraint=eu-central-1`
+1. Create s3 bucket to hold our terraform state with this command: `aws s3api create-bucket --bucket my-terraform-backend-store --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2`
 1. Because the terraform state contains some very secret secrets, setup encryption of bucket: `aws s3api put-bucket-encryption --bucket my-terraform-backend-store --server-side-encryption-configuration "{\"Rules\":[{\"ApplyServerSideEncryptionByDefault\":{\"SSEAlgorithm\":\"AES256\"}}]}"`
 1. Create IAM user for Terraform `aws iam create-user --user-name my-terraform-user`
 1. Add policy to access S3 and DynamoDB access -

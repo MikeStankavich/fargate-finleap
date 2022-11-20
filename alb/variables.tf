@@ -17,11 +17,15 @@ variable "vpc_id" {
 variable "alb_security_groups" {
   description = "Comma separated list of security groups"
 }
-
-variable "alb_tls_cert_arn" {
-  description = "The ARN of the certificate that the ALB uses for https"
-}
+#
+#variable "alb_tls_cert_arn" {
+#  description = "The ARN of the certificate that the ALB uses for https"
+#}
 
 variable "health_check_path" {
   description = "Path to check if the service is healthy, e.g. \"/status\""
+}
+
+variable "domain" {
+  description = "the name of your domain, e.g. \"example.com\""
 }

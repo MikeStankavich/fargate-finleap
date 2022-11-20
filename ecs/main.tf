@@ -140,7 +140,7 @@ resource "aws_ecs_task_definition" "main" {
         awslogs-region        = var.region
       }
     }
-    secrets = var.container_secrets
+#    secrets = var.container_secrets
   }])
 
   tags = {

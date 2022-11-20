@@ -1,0 +1,10 @@
+name                = "ecs-sandbox"
+environment         = "test"
+availability_zones  = ["us-west-2a", "us-west-2b"]
+private_subnets     = ["10.77.2.0/24", "10.77.4.0/24"]
+public_subnets      = ["10.77.6.0/24", "10.77.8.0/24"]
+tls_certificate_arn = "mycertificatearn"
+container_memory    = 512
+domain              = "opsumo.me"
+cidr                = "10.77.0.0/16"
+container_port      = 80

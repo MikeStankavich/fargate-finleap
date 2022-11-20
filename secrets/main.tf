@@ -16,22 +16,24 @@ resource "aws_secretsmanager_secret_version" "application_secrets_values" {
   secret_string = element(values(var.application-secrets), count.index)
 }
 
-locals {
-  secrets = zipmap(keys(var.application-secrets), aws_secretsmanager_secret_version.solaris_broker_application_secrets_values.*.arn)
-
-  secretMap = [for secretKey in keys(var.application-secrets) : {
-    name      = secretKey
-    valueFrom = lookup(local.secrets, secretKey)
-    }
-
-  ]
-}
-
+#locals {
+#  secrets = zipmap(keys(var.application-secrets), aws_secretsmanager_secret_version.solaris_broker_application_secrets_values.*.arn)
+##  secrets = zipmap(keys(var.application-secrets))
+#
+#  secretMap = [for secretKey in keys(var.application-secrets) : {
+#    name      = secretKey
+#    valueFrom = lookup(local.secrets, secretKey)
+#    }
+#
+#  ]
+#}
+#
 output "application_secrets_arn" {
-  value = aws_secretsmanager_secret_version.solaris_broker_application_secrets_values.*.arn
+  value = aws_secretsmanager_secret_version.application_secrets_values.*.arn
+#  value = "probably dont need this"
 }
-
-output "secrets_map" {
-  value = local.secretMap
-}
+#
+#output "secrets_map" {
+#  value = local.secretMap
+#}
 
