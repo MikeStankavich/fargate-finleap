@@ -9,6 +9,8 @@ resource "aws_secretsmanager_secret" "application_secrets" {
   name  = "${var.name}-application-secrets-${var.environment}-${element(keys(var.application-secrets), count.index)}"
 }
 
+# terraform import -var-file="secrets.tfvars" module.secrets.aws_secretsmanager_secret.application_secrets application_secrets
+# aws secretsmanager delete-secret --secret-id application_secrets --force-delete-without-recovery --region us-west-2
 
 resource "aws_secretsmanager_secret_version" "application_secrets_values" {
   count         = length(var.application-secrets)

@@ -119,6 +119,7 @@ resource "aws_flow_log" "main" {
 resource "aws_cloudwatch_log_group" "main" {
   name = "${var.name}-cloudwatch-log-group"
 }
+# terraform import -var-file="secrets.tfvars" module.vpc.aws_cloudwatch_log_group.main ecs-sandbox-cloudwatch-log-group
 
 resource "aws_iam_role" "vpc-flow-logs-role" {
   name = "${var.name}-vpc-flow-logs-role"
