@@ -54,7 +54,7 @@ variable "public_subnets" {
 
 variable "service_desired_count" {
   description = "Number of tasks running in parallel"
-  default     = 2
+  default     = 1
 }
 
 variable "container_port" {

@@ -92,7 +92,8 @@ module "ecs" {
   ]
 #  container_secrets      = module.secrets.secrets_map
 #  aws_ecr_repository_url = module.ecr.aws_ecr_repository_url
-  container_image        = "nginxdemos/hello"
+  #container_image        = "nginxdemos/hello"
+  container_image        = "252374924199.dkr.ecr.us-west-2.amazonaws.com/ecs-sandbox-test"
   container_secrets_arns = module.secrets.application_secrets_arn
 }
 
