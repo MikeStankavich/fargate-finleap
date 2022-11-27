@@ -57,3 +57,41 @@ resource "aws_vpc_endpoint" "logs" {
     Environment = "dev"
   }
 }
+
+
+resource "aws_vpc_endpoint" "ssm" {
+  vpc_id              = aws_vpc.main.id
+  private_dns_enabled = true
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.secretsmanager"
+  vpc_endpoint_type   = "Interface"
+  security_group_ids = [
+    aws_security_group.vpce.id,
+  ]
+#  count          = length(var.private_subnets)
+#  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  subnet_ids = [for sub in aws_subnet.private : sub.id]
+
+  tags = {
+    Name        = "ssm-endpoint"
+    Environment = "dev"
+  }
+}
+
+
+resource "aws_vpc_endpoint" "ecr_api" {
+  vpc_id              = aws_vpc.main.id
+  private_dns_enabled = true
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.ecr.api"
+  vpc_endpoint_type   = "Interface"
+  security_group_ids = [
+    aws_security_group.vpce.id,
+  ]
+#  count          = length(var.private_subnets)
+#  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  subnet_ids = [for sub in aws_subnet.private : sub.id]
+
+  tags = {
+    Name        = "ecr-api-endpoint"
+    Environment = "dev"
+  }
+}

@@ -36,6 +36,29 @@ resource "aws_iam_role" "ecs_task_role" {
   ]
 }
 EOF
+
+    inline_policy {
+        name   = "my-ecr-permissions"
+        policy = jsonencode(
+            {
+                Statement = [
+                    {
+                        Action   = [
+                            "ecr:GetDownloadUrlForLayer",
+                            "ecr:BatchGetImage",
+                            "ecr:GetAuthorizationToken",
+                            "ecr:BatchCheckLayerAvailability",
+                        ]
+                        Effect   = "Allow"
+                        Resource = "*"
+                        Sid      = "VisualEditor0"
+                    },
+                ]
+                Version   = "2012-10-17"
+            }
+        )
+    }
+
 }
 
 resource "aws_iam_policy" "dynamodb" {
@@ -184,7 +207,7 @@ resource "aws_ecs_service" "main" {
   # of a new version of the application
   # desired_count is ignored as it can change due to autoscaling policy
   lifecycle {
-    ignore_changes = [task_definition, desired_count]
+    #ignore_changes = [task_definition, desired_count]
   }
 }
 
