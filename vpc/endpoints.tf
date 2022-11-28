@@ -95,3 +95,22 @@ resource "aws_vpc_endpoint" "ecr_api" {
     Environment = "dev"
   }
 }
+
+
+resource "aws_vpc_endpoint" "ssmmessages" {
+  vpc_id              = aws_vpc.main.id
+  private_dns_enabled = true
+  service_name        = "com.amazonaws.${data.aws_region.current.name}.ssmmessages"
+  vpc_endpoint_type   = "Interface"
+  security_group_ids = [
+    aws_security_group.vpce.id,
+  ]
+#  count          = length(var.private_subnets)
+#  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  subnet_ids = [for sub in aws_subnet.private : sub.id]
+
+  tags = {
+    Name        = "ssmmessages-endpoint"
+    Environment = "dev"
+  }
+}

@@ -59,6 +59,26 @@ EOF
         )
     }
 
+  inline_policy {
+    name = "ssmmessages-policy"
+    policy = jsonencode(
+     {
+    Statement: [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenDataChannel",
+                "ssmmessages:OpenControlChannel",
+                "ssmmessages:CreateControlChannel"
+            ],
+            "Resource": "*"
+        }
+    ]
+                Version   = "2012-10-17"
+   })
+  }
 }
 
 resource "aws_iam_policy" "dynamodb" {
@@ -190,6 +210,7 @@ resource "aws_ecs_service" "main" {
   health_check_grace_period_seconds  = 60
   launch_type                        = "FARGATE"
   scheduling_strategy                = "REPLICA"
+  enable_execute_command = true
 
   network_configuration {
     security_groups  = var.ecs_service_security_groups
